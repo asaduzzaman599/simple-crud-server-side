@@ -19,7 +19,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 const run = async () => {
     try {
         await client.connect()
-        const productDBConnettion = client.db('product_management').collection('product');
+        const connetionProductDB = client.db('product_management').collection('product');
+
+        app.post('/product', async (req, res) => {
+            const product = req.body;
+            console.log(product)
+            const result = connetionProductDB.insertOne(product)
+            res.send({ "result": result })
+        })
 
         console.log("Database Connected")
 
