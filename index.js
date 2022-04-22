@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const res = require('express/lib/response');
 
 
 const app = express()
@@ -40,6 +41,26 @@ const run = async () => {
 
             const result = await connetionProductDB.deleteOne(query);
             res.send(result)
+        })
+
+        app.put('/product/:productId', async (req, res) => {
+
+            const id = req.params.productId;
+            const product = req.body;
+
+            const filter = {
+                _id: ObjectId(id)
+            }
+            const options = { upsert: true };
+            const newDocument = {
+                $set: product
+            };
+
+            const result = await connetionProductDB.updateOne(filter, newDocument, options);
+
+            console.log(result)
+            res.send(result)
+
         })
 
         console.log("Database Connected")
