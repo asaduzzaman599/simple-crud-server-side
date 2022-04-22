@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 const app = express()
@@ -11,8 +12,6 @@ app.use(cors())
 app.use(express.json())
 
 //mongoDB
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASSWORD}@cluster0.sfale.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -30,6 +29,16 @@ const run = async () => {
 
         app.get('/product', async (req, res) => {
             const result = await connetionProductDB.find({}).toArray();
+            res.send(result)
+        })
+
+        app.delete('/product/:productId', async (req, res) => {
+            const id = req.params.productId;
+            const query = {
+                _id: ObjectId(id)
+            }
+
+            const result = await connetionProductDB.deleteOne(query);
             res.send(result)
         })
 
