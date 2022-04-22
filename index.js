@@ -24,8 +24,13 @@ const run = async () => {
         app.post('/product', async (req, res) => {
             const product = req.body;
             console.log(product)
-            const result = connetionProductDB.insertOne(product)
+            const result = await connetionProductDB.insertOne(product)
             res.send({ "result": result })
+        })
+
+        app.get('/product', async (req, res) => {
+            const result = await connetionProductDB.find({}).toArray();
+            res.send(result)
         })
 
         console.log("Database Connected")
