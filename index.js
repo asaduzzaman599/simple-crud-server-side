@@ -33,6 +33,15 @@ const run = async () => {
             res.send(result)
         })
 
+        app.get('/product/:productId', async (req, res) => {
+            const id = req.params.productId;
+            const query = {
+                _id: ObjectId(id)
+            }
+            const result = await connetionProductDB.find(query).toArray();
+            res.send(result)
+        })
+
         app.delete('/product/:productId', async (req, res) => {
             const id = req.params.productId;
             const query = {
