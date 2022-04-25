@@ -6,7 +6,7 @@ const res = require('express/lib/response');
 
 
 const app = express()
-const port = process.env.PORT || 2000
+const port = process.env.PORT || 7000
 
 //middleware
 app.use(cors())
